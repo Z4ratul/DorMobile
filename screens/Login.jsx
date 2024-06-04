@@ -46,7 +46,7 @@ const LoginScreen = () => {
         await AsyncStorage.setItem(`user${responseData.PartnerId}`, JSON.stringify(responseData))
         await AsyncStorage.setItem('PartnerId', JSON.stringify(responseData.PartnerId))
         
-        navigation.replace("Client")
+        navigation.navigate("Главная")
 
         const newUser = await AsyncStorage.getItem(`user${responseData.PartnerId}`)
         console.log(newUser)

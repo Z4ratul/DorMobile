@@ -35,7 +35,10 @@ const Machine = () => {
             </View>
             </View>
             <View style={styles.contentColumn}>
-              <Image style={styles.imageStyle} source={{ uri: `http://dortechs.ru/${data.image}` }} />
+            <Image
+              style={styles.imageStyle}
+              source={data.image ? { uri: `http://dortechs.ru/${data.image}` } : logoImage}
+            />
               <Text style={styles.atitle}>Характеристики</Text>
               <View style={styles.contentRow}>
                 <View style={styles.Column2}>
