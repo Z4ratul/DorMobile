@@ -10,7 +10,7 @@ const useFetchManufacturer = (id) => {
     const fetchData = async () => {
         try {
             setIsLoading(true);
-            const response = await axios.get(`http://192.168.0.102:80/api/manufacturer/${id}`);
+            const response = await axios.get(`http://dortechs.ru/api/manufacturer/${id}`);
             setManData(response.data); 
             setIsLoading(false);
         } catch (error) {

@@ -19,7 +19,7 @@ const MachineCard = ({item}) => {
         <TouchableOpacity onPress={handleCardPress}>
         <View style={styles.container}>
             <View style={styles.contentRow}>
-                <Image style={styles.image} source={{ uri: `http://192.168.0.102:80/${item.image}` }} />
+                <Image style={styles.image} source={{ uri: `http://dortechs.ru/${item.image}` }} />
                     <View style={styles.contentColumn}>
                         <View style={styles.title}>
                             <Text style={styles.title}>{item.modelName}</Text>

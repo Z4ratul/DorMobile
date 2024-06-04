@@ -12,7 +12,7 @@ const useFetchVIN = (VINNumber) => {
     const fetchData = async () => {
         try{
             setIsLoading(true)
-            const response = await axios.get(`http://192.168.0.102:80/api/machine/${VINNumber}`)
+            const response = await axios.get(`http://dortechs.ru/api/machine/${VINNumber}`)
             setData(response.data)
             setIsLoading(false)
         }catch (error){

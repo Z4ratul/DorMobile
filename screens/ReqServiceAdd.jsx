@@ -25,7 +25,7 @@ const ReqServieceAdd = () => {
   const reqAdd = async (values) => {
     try {
         setLoader(true); 
-        const endpoint = "http://192.168.0.102:80/api/request/new";
+        const endpoint = "http://dortechs.ru/api/request/new";
         const data = {
             description: values.Description,
             PartnerId: userData.id, // Замените на правильное значение

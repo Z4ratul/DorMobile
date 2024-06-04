@@ -10,7 +10,7 @@ const useFetchMachinetype = (id) => {
     const fetchData = async () => {
         try {
             setIsLoading(true);
-            const response = await axios.get(`http://192.168.0.102:80/api/machinetype/${id}`);
+            const response = await axios.get(`http://dortechs.ru/api/machinetype/${id}`);
             setTypeData(response.data); 
             setIsLoading(false);
         } catch (error) {

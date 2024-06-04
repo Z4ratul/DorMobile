@@ -2,7 +2,7 @@ import { useQuery } from 'react-query';
 import axios from 'axios';
 
 const fetchServiceId = async (id) => {
-  const response = await axios.get(`http://192.168.0.102:80/api/servicelist/${id}`);
+  const response = await axios.get(`http://dortechs.ru/api/servicelist/${id}`);
   return response.data;
 };
 

@@ -38,7 +38,7 @@ const LoginScreen = () => {
   const login = async (values) => {
     setLoader(true)
     try {
-      const endpoint = "http://192.168.0.102:80/api/client/loginMobile"
+      const endpoint = "http://dortechs.ru/api/client/loginMobile"
       const response = await axios.post(endpoint, values)
 
       if (response.status === 200) {
