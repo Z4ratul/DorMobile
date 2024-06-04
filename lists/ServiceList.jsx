@@ -16,7 +16,7 @@ const ServiceList = () => {
   }, [clientData]); // Передайте зависимость useEffect, если необходимо
 
   const checkExistingUser = async () => {
-    const storedId = await AsyncStorage.getItem('id');
+    const storedId = await AsyncStorage.getItem('PartnerId');
     const useId = `user${JSON.parse(storedId)}`;
 
     try {

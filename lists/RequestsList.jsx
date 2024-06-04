@@ -14,7 +14,7 @@ const RequestsList = ({ flag }) => {
   }, [userLogin]); // Передаем userLogin в массив зависимостей
 
   const checkExistingUser = async () => {
-    const id = await AsyncStorage.getItem('id');
+    const id = await AsyncStorage.getItem('PartnerId');
     const useId = `user${JSON.parse(id)}`;
 
     try {

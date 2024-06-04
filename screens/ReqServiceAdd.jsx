@@ -64,7 +64,7 @@ const ReqServieceAdd = () => {
 
 
   const checkExistingUser = async () => {
-    const storedId = await AsyncStorage.getItem('id');
+    const storedId = await AsyncStorage.getItem('PartnerId');
     const useId = `user${JSON.parse(storedId)}`;
 
     try {

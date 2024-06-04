@@ -5,37 +5,35 @@ import { useNavigation } from '@react-navigation/native'
 
 const logoImage = require('../images/Machine.png')
 
-const MachineCard = ({item}) => {
-    const navigation = useNavigation()
-
+const MachineCard = ({ item }) => {
+    const navigation = useNavigation();
+  
     const handleCardPress = () => {
-        navigation.navigate("Machine", {
-          VINNumber: item.VINNumber,
-        })
-    }
-
-  return (
-    <View>
+      navigation.navigate("Machine", {
+        VINNumber: item.VINNumber,
+      });
+    };
+  
+    return (
+      <View>
         <TouchableOpacity onPress={handleCardPress}>
-        <View style={styles.container}>
+          <View style={styles.container}>
             <View style={styles.contentRow}>
             <Image
-            style={styles.imageStyle}
-            source={data.image ? { uri: `http://dortechs.ru/${data.image}` } : logoImage}
+                style={styles.imageStyle}
+                source={{ uri: `http://dortechs.ru/${item.image}` }}
             />
-                    <View style={styles.contentColumn}>
-                        <View style={styles.title}>
-                            <Text style={styles.title}>{item.modelName}</Text>
-                        </View>
-
-                    </View>
+              <View style={styles.contentColumn}>
+                <View style={styles.title}>
+                  <Text style={styles.title}>{item.modelName}</Text>
+                </View>
+              </View>
             </View>
-        </View>
-    </TouchableOpacity>
-    </View>
-
-  )
-}
+          </View>
+        </TouchableOpacity>
+      </View>
+    );
+  };
 
 export default MachineCard
 

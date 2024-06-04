@@ -18,7 +18,7 @@ const Services = () => {
   },[])
 
   const checkExitingUser = async () =>{
-    const id = await AsyncStorage.getItem('id')
+    const id = await AsyncStorage.getItem('PartnerId')
     const useId = `user${JSON.parse(id)}`
 
     try{

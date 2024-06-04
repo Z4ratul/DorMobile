@@ -35,47 +35,50 @@ const LoginScreen = () => {
     )
   }
 
-  const login = async (values) => {
-    setLoader(true)
-    try {
-      const endpoint = "http://dortechs.ru/api/client/loginMobile"
-      const response = await axios.post(endpoint, values)
+  // Внутри функции login в странице авторизации
+const login = async (values) => {
+  setLoader(true)
+  try {
+    const endpoint = "http://dortechs.ru/api/client/loginMobile"
+    const response = await axios.post(endpoint, values)
 
-      if (response.status === 200) {
-        const responseData = response.data
-        await AsyncStorage.setItem(`user${responseData.PartnerId}`, JSON.stringify(responseData))
-        await AsyncStorage.setItem('PartnerId', JSON.stringify(responseData.PartnerId))
-        
-        navigation.navigate("Главная")
+    if (response.status === 200) {
+      const responseData = response.data
+      await AsyncStorage.setItem(`user${responseData.PartnerId}`, JSON.stringify(responseData))
+      await AsyncStorage.setItem('PartnerId', JSON.stringify(responseData.PartnerId))
+      
+      console.log("Logged in successfully. Navigating to client page..."); // Добавим эту строку
+      navigation.navigate("Клиент")
 
-        const newUser = await AsyncStorage.getItem(`user${responseData.PartnerId}`)
-        console.log(newUser)
-      } else {
-        Alert.alert(
-          "Ошибка",
-          "Пожалуйста убедитесь в корректности данных",
-          [
-            {
-              text: "Ок", onPress: () => {}
-            },
-          ]
-        )
-      }
-    } catch (error) {
-      console.error('Error during login:', error)
+      const newUser = await AsyncStorage.getItem(`user${responseData.PartnerId}`)
+      console.log(newUser)
+    } else {
       Alert.alert(
         "Ошибка",
-        `Произошла ошибка при подключении к серверу: ${error.message}`,
+        "Пожалуйста убедитесь в корректности данных",
         [
           {
             text: "Ок", onPress: () => {}
           },
         ]
       )
-    } finally {
-      setLoader(false)
     }
+  } catch (error) {
+    console.error('Error during login:', error)
+    Alert.alert(
+      "Ошибка",
+      `Произошла ошибка при подключении к серверу: ${error.message}`,
+      [
+        {
+          text: "Ок", onPress: () => {}
+        },
+      ]
+    )
+  } finally {
+    setLoader(false)
   }
+}
+
 
   return (
     <SafeAreaView>
