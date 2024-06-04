@@ -1,0 +1,18 @@
+{
+  "build": {
+    "Dortechnologica": {
+      "android": {
+        "buildType": "apk"
+      }
+    },
+    "Dortechnologica2": {
+      "android": {
+        "gradleCommand": ":app:assembleRelease"
+      }
+    },
+    "Dortechnologica3": {
+      "developmentClient": true
+    },
+    "production": {}
+  }
+}
