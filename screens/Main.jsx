@@ -1,11 +1,45 @@
 import { StyleSheet, Text, View, ScrollView } from 'react-native'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import NewsColumn from '../lists/NewsColumn'
 import RequestsList from '../lists/RequestsList'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { useFocusEffect } from '@react-navigation/native'
 
 const Main = () => {
+  const [data, setData] = useState(null)
+  const [loading, setLoading] = useState(true)
+
+  useFocusEffect(
+    useCallback(() => {
+      const fetchData = async () => {
+        try {
+          const id = await AsyncStorage.getItem('PartnerId')
+          if (id !== null) {
+            const userId = `user${JSON.parse(id)}`
+            const userData = await AsyncStorage.getItem(userId)
+            if (userData !== null) {
+              setData(JSON.parse(userData))
+            }
+          }
+        } catch (error) {
+          console.log('Ошибка получения данных', error)
+        } finally {
+          setLoading(false)
+        }
+      }
+      
+      fetchData()
+    }, [])
+  )
+
+  if (loading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <Text style={styles.loadingText}>Загрузка...</Text>
+      </View>
+    )
+  }
 
   return (
     <View style={styles.container}>
@@ -23,10 +57,10 @@ const Main = () => {
         </View>
       </View>
       <ScrollView style={styles.notifications}>
-        <RequestsList flag={true}/>
+        <RequestsList flag={true} />
       </ScrollView>
     </View>
-  );
+  )
 }
 
 export default Main
@@ -55,4 +89,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 30,
   },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  loadingText: {
+    fontSize: 20
+  }
 })

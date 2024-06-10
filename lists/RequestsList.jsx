@@ -1,36 +1,54 @@
-import React, {useState, useEffect} from 'react';
-import { StyleSheet, Text, View, FlatList, ActivityIndicator} from 'react-native';
+import React, { useState, useCallback } from 'react';
+import { StyleSheet, Text, View, FlatList, ActivityIndicator } from 'react-native';
 import RequestCard from './RequestCard';
 import useFetchRequests from '../hook/useFetchRequests';
 import useFetchActiveReq from '../hook/useFetchActiveReq';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useFocusEffect } from '@react-navigation/native';
 
 const RequestsList = ({ flag }) => {
   const [userData, setUserData] = useState(null);
   const [userLogin, setUserLogin] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    checkExistingUser();
-  }, [userLogin]); // Передаем userLogin в массив зависимостей
+  useFocusEffect(
+    useCallback(() => {
+      const checkExistingUser = async () => {
+        try {
+          const id = await AsyncStorage.getItem('PartnerId');
+          if (id !== null) {
+            const useId = `user${JSON.parse(id)}`;
+            const currentUser = await AsyncStorage.getItem(useId);
+            if (currentUser !== null) {
+              const parsedData = JSON.parse(currentUser);
+              setUserData(parsedData);
+              setUserLogin(true);
+            } else {
+              setUserLogin(false);
+            }
+          } else {
+            setUserLogin(false);
+          }
+        } catch (error) {
+          console.log("Ошибка получения данных", error);
+        } finally {
+          setLoading(false);
+        }
+      };
 
-  const checkExistingUser = async () => {
-    const id = await AsyncStorage.getItem('PartnerId');
-    const useId = `user${JSON.parse(id)}`;
-
-    try {
-      const currentUser = await AsyncStorage.getItem(useId);
-
-      if (currentUser !== null) {
-        const parsedData = JSON.parse(currentUser);
-        setUserData(parsedData);
-        setUserLogin(true);
-      }
-    } catch (error) {
-      console.log("Ошибка получения данных", error);
-    }
-  };
+      checkExistingUser();
+    }, [])
+  );
 
   const { data, isLoading, error } = flag ? useFetchActiveReq(userLogin ? userData.id : 0) : useFetchRequests(userLogin ? userData.id : 0);
+
+  if (loading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  }
 
   return (
     <View style={styles.position}>
@@ -46,8 +64,7 @@ const RequestsList = ({ flag }) => {
             <RequestCard
               item={{
                 ...item,
-                // Применяем ограничение на количество символов для описания прямо здесь
-                description: item.description.length > 10 ? `${item.description.slice(0, 30)}...` : item.description
+                description: item.description.length > 30 ? `${item.description.slice(0, 30)}...` : item.description
               }}
             />
           )}
@@ -62,6 +79,11 @@ export default RequestsList;
 
 const styles = StyleSheet.create({
   position: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  loadingContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
