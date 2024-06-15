@@ -40,7 +40,7 @@ const RequestsList = ({ flag }) => {
     }, [])
   );
 
-  const { data, isLoading, error } = flag ? useFetchActiveReq(userLogin ? userData.id : 0) : useFetchRequests(userLogin ? userData.id : 0);
+  const { data, isLoading, error } = flag ? useFetchActiveReq(userLogin ? userData.PartnerId : 0) : useFetchRequests(userLogin ? userData.PartnerId : 0);
 
   if (loading) {
     return (
@@ -51,9 +51,9 @@ const RequestsList = ({ flag }) => {
   }
 
   return (
-    <View style={styles.position}>
+    <View style={styles.container}>
       {isLoading ? (
-        <ActivityIndicator size={12} />
+        <ActivityIndicator size="large" />
       ) : error ? (
         <Text>{error.message}</Text>
       ) : (
@@ -68,7 +68,7 @@ const RequestsList = ({ flag }) => {
               }}
             />
           )}
-          contentContainerStyle={{ rowGap: 15 }}
+          contentContainerStyle={styles.listContent}
         />
       )}
     </View>
@@ -78,14 +78,16 @@ const RequestsList = ({ flag }) => {
 export default RequestsList;
 
 const styles = StyleSheet.create({
-  position: {
+  container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    paddingHorizontal: 10, // Добавил горизонтальные отступы
   },
   loadingContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  listContent: {
+    paddingBottom: 15,
   },
 });

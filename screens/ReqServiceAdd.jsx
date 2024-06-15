@@ -28,7 +28,7 @@ const ReqServieceAdd = () => {
         const endpoint = "http://dortechs.ru/api/request/new";
         const data = {
             description: values.Description,
-            PartnerId: userData.id, // Замените на правильное значение
+            PartnerId: userData.PartnerId, // Замените на правильное значение
             MachineVINNumber: values.MachineVINNumber,
             ServiceListId: values.ServicelistId,
             closeDate: null // Значение closeDate будет установлено на сервере
@@ -82,8 +82,9 @@ const ReqServieceAdd = () => {
     }
   };
 
-  const { data: machinesData, isLoading: machinesLoading, error: machinesError } = useFetchMachines(userLogin ? userData.id : 0);
+  const { data: machinesData, isLoading: machinesLoading, error: machinesError } = useFetchMachines(userLogin ? userData.PartnerId : 0);
   const { data: serviceData, isLoading: serviceLoading, error: serviceError } = useFetchServiceId(id);
+  console.log(machinesData)
   return (
     <SafeAreaView style={styles.container}>
       <Formik
@@ -116,7 +117,7 @@ const ReqServieceAdd = () => {
                   </View>
                   <View style={styles.inputContainer}>
                     <Text style={styles.subTitle}>Выберите технику:</Text>
-                    <ScrollView style={{ maxHeight: 300 }}>
+                    <ScrollView style={{ maxHeight: 200 }}>
                       {machinesData && machinesData.length > 0 ? (
                         machinesData.map((item, index) => (
                           <TouchableOpacity
@@ -126,12 +127,12 @@ const ReqServieceAdd = () => {
                               setIsMachineSelected(true);
                             }}
                             style={{
-                              paddingVertical: 10,
+                              paddingVertical: 15,
                               paddingHorizontal: 20,
                               backgroundColor: values.MachineVINNumber === item.VINNumber ? '#F4C55C' : 'transparent',
                             }}>
                             <Text style={{ color: values.MachineVINNumber === item.VINNumber ? 'white' : 'black', fontSize: 18 }}>
-                              {item.VINNumber} {item.ModelName}
+                              {item.VINNumber} {item.modelName}
                             </Text>
                           </TouchableOpacity>
                         ))

@@ -1,60 +1,50 @@
-import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native'
-import React from 'react'
-import { useNavigation } from '@react-navigation/native'
-
-const logoImage = require('../images/Logo.png')
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import React, { Component } from 'react';
 
 class NewsCard extends Component {
-    render() {
-      const { title, description } = this.props;
-      
-      return (
-        <TouchableOpacity onPress={() => {}}>
-          <View style={styles.container}>
-            <View style={styles.contentRow}>
-              <Image style={styles.image} source={logoImage} />
-              <View style={styles.contentColumn}>
-                <View style={styles.title}>
-                  <Text>{title}</Text>
-                </View>
-                <Text style={styles.text}>{description}</Text>
-              </View>
-            </View>
-          </View>
-        </TouchableOpacity>
-      );
-    }
-  }
+  render() {
+    const { title, description } = this.props;
 
-export default NewsCard
+    return (
+      <TouchableOpacity onPress={() => {}} style={styles.touchable}>
+        <View style={styles.container}>
+          <View style={styles.contentColumn}>
+            <Text style={styles.title}>{title}</Text>
+            <Text style={styles.text}>{description}</Text>
+          </View>
+        </View>
+      </TouchableOpacity>
+    );
+  }
+}
+
+export default NewsCard;
 
 const styles = StyleSheet.create({
-    container:{
-        height:90,
-        width:380,
-        backgroundColor:"#B1B1B1",
-        borderRadius:15
-    },
-    image:{
-        height:70,
-        width:70,
-        borderRadius:15,
-        marginLeft:10,
-        marginTop:10,
-    },
-    contentRow:{
-        flexDirection:"row"
-    },
-    contentColumn:{
-        flexDirection:"column",
-        marginTop:10,
-        marginLeft:10,
-        width:180,
-    },
-    title:{
-        alignItems:"center"
-    },
-    text:{
-        marginTop:10
-    }
-})
+  touchable: {
+    marginVertical: 10, // Adds spacing between the cards
+  },
+  container: {
+    padding: 15,
+    backgroundColor: '#ffffff',
+    borderRadius: 15,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 5, // Adds shadow for Android
+  },
+  contentColumn: {
+    flexDirection: 'column',
+  },
+  title: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 5,
+    color: '#333', // Darker color for better readability
+  },
+  text: {
+    fontSize: 14,
+    color: '#666', // Slightly lighter color for description
+  },
+});

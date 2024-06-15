@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
     subtitleStyle:{
         fontWeight: 'bold',
         fontSize:30,
-        marginLeft:90
+        marginLeft:70
     },
     bottommargin:{
         marginBottom:60

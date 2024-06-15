@@ -11,14 +11,14 @@ const RequestCard = ({ item }) => {
       <View style={[styles.container, { backgroundColor: item.closeDate ? "#B1B1B1" : "#F4C55C" }]}>
         <View style={styles.contentRow}>
           <View style={styles.contentColumn}>
-            <Text>Заявка №{item.id}</Text>
-            <Text>Описание: {truncatedDescription}</Text>
-            <Text>Услуга: {item.ServiceList.name}</Text>
-            <Text>VIN: {item.Machine.VINNumber}</Text>
+            <Text style={styles.titleText}>Заявка №{item.id}</Text>
+            <Text style={styles.descriptionText}>Описание: {truncatedDescription}</Text>
+            <Text style={styles.text}>Услуга: {item.ServiceList.name}</Text>
+            <Text style={styles.text}>VIN: {item.Machine.VINNumber}</Text>
           </View>
           <View style={styles.contentColumn2}>
-            <Text>C: {item.openDate}</Text>
-            <Text>По: {item.closeDate ? item.closeDate : 'Активна'}</Text>
+            <Text style={styles.text}>С: {item.openDate}</Text>
+            <Text style={styles.text}>По: {item.closeDate ? item.closeDate : 'Активна'}</Text>
           </View>
         </View>
       </View>
@@ -30,44 +30,41 @@ export default RequestCard;
 
 const styles = StyleSheet.create({
   container: {
-    height: 100, // Увеличил высоту для размещения дополнительного текста
-    width: 320,
+    padding: 15,
     backgroundColor: "#B1B1B1",
     borderRadius: 15,
-    marginVertical: 5, // Добавил отступ между карточками
+    marginVertical: 5,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 5, // Shadow for Android
   },
   contentRow: {
     flexDirection: "row",
-    width: 350,
-    alignContent: "stretch"
+    justifyContent: 'space-between',
   },
   contentColumn: {
     flexDirection: "column",
-    marginTop: 2,
-    marginLeft: 10,
-    width: 190
+    flex: 1,
+    paddingRight: 10,
   },
   contentColumn2: {
     flexDirection: "column",
-    marginTop: 2,
-    marginLeft: 40,
-    width: 110
+    alignItems: 'flex-end',
+    justifyContent: 'center',
   },
-  title: {
-    marginLeft: 10
+  titleText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 5,
   },
-  titleStyle: {
-    fontSize: 17,
+  descriptionText: {
+    fontSize: 14,
+    marginBottom: 5,
   },
   text: {
-    marginLeft: 5,
-    marginTop: 3
-  },
-  textStyle: {
-    fontSize: 13,
-  },
-  dateStyle: {
     fontSize: 14,
-    marginLeft: 100
+    marginBottom: 3,
   },
 });

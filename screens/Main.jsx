@@ -1,100 +1,112 @@
-import { StyleSheet, Text, View, ScrollView } from 'react-native'
-import React, { useState, useEffect, useCallback } from 'react'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import NewsColumn from '../lists/NewsColumn'
-import RequestsList from '../lists/RequestsList'
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import { useFocusEffect } from '@react-navigation/native'
+import { StyleSheet, Text, View, ScrollView, ActivityIndicator } from 'react-native';
+import React, { useState, useCallback } from 'react';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import NewsColumn from '../lists/NewsColumn';
+import RequestsList from '../lists/RequestsList';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useFocusEffect } from '@react-navigation/native';
 
 const Main = () => {
-  const [data, setData] = useState(null)
-  const [loading, setLoading] = useState(true)
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const id = await AsyncStorage.getItem('PartnerId');
+      if (id !== null) {
+        const userId = `user${JSON.parse(id)}`;
+        const userData = await AsyncStorage.getItem(userId);
+        if (userData !== null) {
+          setData(JSON.parse(userData));
+        }
+      }
+    } catch (error) {
+      console.log('Ошибка получения данных', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useFocusEffect(
     useCallback(() => {
-      const fetchData = async () => {
-        try {
-          const id = await AsyncStorage.getItem('PartnerId')
-          if (id !== null) {
-            const userId = `user${JSON.parse(id)}`
-            const userData = await AsyncStorage.getItem(userId)
-            if (userData !== null) {
-              setData(JSON.parse(userData))
-            }
-          }
-        } catch (error) {
-          console.log('Ошибка получения данных', error)
-        } finally {
-          setLoading(false)
-        }
-      }
-      
-      fetchData()
+      fetchData();
     }, [])
-  )
+  );
 
   if (loading) {
     return (
       <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#0000ff" />
         <Text style={styles.loadingText}>Загрузка...</Text>
       </View>
-    )
+    );
   }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.titleWrapper}>
-        <View style={styles.title}>
-          <Text style={styles.titleStyle}>Главная</Text>
-        </View>
+        <Text style={styles.titleStyle}>Главная</Text>
       </View>
       <View style={styles.news}>
         <NewsColumn />
       </View>
-      <View style={styles.titleWrapper}>
-        <View style={styles.title}>
-          <Text style={styles.subtitleStyle}>Текущие заявки</Text>
-        </View>
+      <View style={styles.subtitleWrapper}>
+        <Text style={styles.subtitleStyle}>Текущие заявки</Text>
       </View>
-      <ScrollView style={styles.notifications}>
+      <ScrollView contentContainerStyle={styles.notificationsContainer}>
         <RequestsList flag={true} />
       </ScrollView>
-    </View>
-  )
-}
+    </SafeAreaView>
+  );
+};
 
-export default Main
+export default Main;
 
 const styles = StyleSheet.create({
-  news: {
-    height: 350
+  container: {
+    flex: 1,
+    backgroundColor: '#f0f0f0',
   },
-  notifications: {
-    height: 279,
+  news: {
+    height: 320,
+    marginBottom: 20,
+    paddingHorizontal: 10,
+  },
+  notificationsContainer: {
+    paddingHorizontal: 10,
+    paddingBottom: 60, 
+  },
+  titleWrapper: {
+    marginHorizontal: 20,
+    marginTop: 20,
+    marginBottom: 10,
   },
   titleStyle: {
     fontWeight: 'bold',
-    fontSize: 40
+    fontSize: 34,
+    color: '#333',
+    textAlign: 'center',
   },
-  titleWrapper: {
-    marginHorizontal: 10,
-    marginTop: 10
-  },
-  title: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center"
+  subtitleWrapper: {
+    marginHorizontal: 20,
+    marginTop: 0,
+    marginBottom: 10,
   },
   subtitleStyle: {
     fontWeight: 'bold',
-    fontSize: 30,
+    fontSize: 28,
+    color: '#666',
+    textAlign: 'center',
   },
   loadingContainer: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   loadingText: {
-    fontSize: 20
-  }
-})
+    fontSize: 18,
+    marginTop: 10,
+    color: '#333',
+  },
+});
