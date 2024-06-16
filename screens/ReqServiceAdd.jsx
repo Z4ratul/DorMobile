@@ -132,7 +132,7 @@ const ReqServieceAdd = () => {
                               backgroundColor: values.MachineVINNumber === item.VINNumber ? '#F4C55C' : 'transparent',
                             }}>
                             <Text style={{ color: values.MachineVINNumber === item.VINNumber ? 'white' : 'black', fontSize: 18 }}>
-                              {item.VINNumber} {item.modelName}
+                              VIN:{item.VINNumber} Модель:{item.modelName}
                             </Text>
                           </TouchableOpacity>
                         ))
